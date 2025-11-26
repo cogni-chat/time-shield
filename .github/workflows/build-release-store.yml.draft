@@ -1,7 +1,6 @@
-# ⚠️ THIS FILE IS DISABLED
-# Rename this file to remove '.draft' (make it .yml) when you have set up:
-# 1. Google Cloud Project & API Access
-# 2. GitHub Secrets (CHROME_EXTENSION_ID, CHROME_CLIENT_ID, etc.)
+# ⚠️ DRAFT: Chrome Web Store Publisher
+# Rename to .yml when you have your Google Secrets ready:
+# CHROME_EXTENSION_ID, CHROME_CLIENT_ID, CHROME_CLIENT_SECRET, CHROME_REFRESH_TOKEN
 
 name: 🚀 Publish to Chrome Store
 
@@ -20,16 +19,17 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Run Build Script
+      # 2. Run Build Script (Needed to generate the zip file in this runner)
       - name: 🛠️ Run Build Script
         run: |
           chmod +x build.sh
           ./build.sh
 
-      # 3. Prepare the file (Find the versioned zip and rename it)
+      # 3. Prepare the file (Find the versioned zip and rename it for upload)
       - name: 🔄 Prepare Chrome File
         run: |
           echo "Looking for Chrome build..."
+          # Copies dist/cogni-time-shield-v1.2.0-chrome.zip to chrome-upload.zip
           cp dist/cogni-time-shield-*-chrome.zip chrome-upload.zip
 
       # 4. Upload to Chrome Web Store
