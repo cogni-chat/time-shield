@@ -1,4 +1,4 @@
-# 🛡️ Cogni Time Shield
+# <img src="https://raw.githubusercontent.com/cogni-chat/cogni-chat.github.io/refs/heads/main/assets/cogni-time-shield.ico" width="35" align="center" />  Cogni - Time Shield
 **Protect your most valuable asset: Consciousness.**
 
 > *"Time is the currency of consciousness. Spend it where it matters."*
@@ -11,7 +11,7 @@
 
 ---
 
-### // THE MISSION
+## // THE MISSION
 In an attention economy designed to fragment your mind, **Time Shield** is a digital boundary for your *Sadhana* (Deep Work).
 It is not just a timer; it is a **Fiduciary Agent for your Attention**.
 
@@ -90,20 +90,21 @@ time-shield/
 └── build.sh                   # Distribution Script
 ```
 ### Permissions Explained
-* `storage`: Saves settings locally (No cloud sync).
-* `notifications`: Alerts when the session ends.
-* `tabs`: Opens the "Session Complete" landing page.
+* **`storage`:** Saves settings locally (No cloud sync).
+* **`notifications`:** Alerts when the session ends.
+* **`tabs`:** Opens the "Session Complete" landing page.
 
 ---
 
 ## // CREDITS
 
-**A [Cogni.chat](https://cogni.chat) Initiative.**
-*Bridging silicon logic with spiritual insight.*
+**A [Rawat Labs](https://airawatraj.github.io) Initiative.**
+*Part of the [Cogni.chat](https://cogni.chat) Multimodal Ecosystem.*
 
 Built by **[@airawatraj](https://github.com/airawatraj)**.
-* *Concept:* The Truth Lab
-* *Inspiration:* [Marinara](https://github.com/schmich/marinara)
-* *License:* MIT (Free as in Freedom)
+
+* **Concept:** The Truth Lab (Mind Lab)
+* **Inspiration:** [Marinara](https://github.com/schmich/marinara)
+* **License:** MIT (Free as in Freedom)
 
 > *AI simulates logic; it is never the Witness.*
