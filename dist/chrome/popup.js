@@ -1,5 +1,5 @@
 /**
- * Cogni Pomo Timer - Popup UI Controller
+ * Cogni Time Shield - Popup UI Controller
  * Manages the extension popup interface and user interactions
  */
 

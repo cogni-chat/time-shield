@@ -1,5 +1,5 @@
 /**
- * Cogni Pomo Timer - Background Service Worker
+ * Cogni Time Shield - Background Service Worker
  * Handles timer logic, notifications, and audio playback
  * Supports both Chrome (Manifest V3) and Firefox (Manifest V2)
  */

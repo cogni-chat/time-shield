@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Cogni Pomo Timer",
+  "name": "Cogni Time Shield",
   "version": "1.2.0",
   "description": "Focus with intention. Simple, safe, forever free & open-source Pomodoro timer. No subscriptions, no paywalls, no bloat. A Cogni.chat initiative.",
   "permissions": [
@@ -31,7 +31,7 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "cogni-pomo-timer@cogni.chat",
+      "id": "cogni-time-shield@cogni.chat",
       "strict_min_version": "109.0"
     }
   }
