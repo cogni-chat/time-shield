@@ -88,7 +88,7 @@ time-shield/
 ├── offscreen.html             # Audio Handler (The Voice)
 ├── popup.js                   # UI Logic (The Face)
 └── build.sh                   # Distribution Script
-
+```
 ### Permissions Explained
 * `storage`: Saves settings locally (No cloud sync).
 * `notifications`: Alerts when the session ends.
