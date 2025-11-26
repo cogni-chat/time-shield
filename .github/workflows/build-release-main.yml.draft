@@ -1,0 +1,55 @@
+# ⚠️ DRAFT: Future replacement for your main build-release.yml
+# Rename to .yml when you are ready to switch over.
+
+name: 🛡️ Build & Release Extension (Main)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Important for pushing changes back
+
+    steps:
+      # 1. Check out the code
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Run your existing shell script
+      - name: 🛠️ Run Build Script
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      # 3. Commit and Push the 'dist' folder back to the repo
+      - name: 💾 Commit & Push Changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          
+          # Add the dist folder
+          git add dist/
+          
+          # Check if there are changes
+          if [[ -n $(git status -s) ]]; then
+            git commit -m "🚧 Auto-update dist folder [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+      # 4. Create GitHub Release
+      - name: 🚀 Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/*.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: true
