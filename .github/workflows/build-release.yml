@@ -1,0 +1,42 @@
+name: 🛡️ Build & Release Extension
+
+on:
+  # Trigger when you push a version tag (e.g., v1.0.0)
+  push:
+    tags:
+      - 'v*'
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to create releases
+
+    steps:
+      # 1. Check out the code
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Run your existing shell script
+      - name: 🛠️ Run Build Script
+        run: |
+          chmod +x build.sh
+          ./build.sh
+        # This script generates the 'dist' folder with the zips
+
+      # 3. List files (Debug step to ensure script worked)
+      - name: 🔍 Verify Build Artifacts
+        run: ls -R dist
+
+      # 4. Create GitHub Release & Upload Zips
+      - name: 🚀 Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/*.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: true
