@@ -1,18 +1,16 @@
 name: 🛡️ Build & Release Extension
 
 on:
-  # Trigger when you push a version tag (e.g., v1.0.0)
   push:
     tags:
       - 'v*'
-  # Allow manual trigger from the Actions tab
   workflow_dispatch:
 
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Required to create releases
+      contents: write # IMPORTANT: This allows the action to push changes back
 
     steps:
       # 1. Check out the code
@@ -24,13 +22,26 @@ jobs:
         run: |
           chmod +x build.sh
           ./build.sh
-        # This script generates the 'dist' folder with the zips
 
-      # 3. List files (Debug step to ensure script worked)
-      - name: 🔍 Verify Build Artifacts
-        run: ls -R dist
+      # 3. NEW STEP: Commit and Push the 'dist' folder back to the repo
+      - name: 💾 Commit & Push Changes
+        run: |
+          # Configure Git to look like a bot
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          
+          # Add the dist folder (force add in case it is ignored)
+          git add dist/
+          
+          # Check if there are actually changes to commit
+          if [[ -n $(git status -s) ]]; then
+            git commit -m "🚧 Auto-update dist folder [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
 
-      # 4. Create GitHub Release & Upload Zips
+      # 4. Create GitHub Release (Only runs if you used a Tag)
       - name: 🚀 Create Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
