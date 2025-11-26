@@ -1,77 +1,62 @@
 #!/bin/bash
 
-#####################################################################
-# Cogni Time Shield - Build Script
-# Creates distribution packages for Chrome and Firefox extensions
-#####################################################################
+# 🛡️ COGNI TIME SHIELD - DISTRIBUTION SCRIPT
+# "Simplicity is the ultimate sophistication."
 
-set -e
+APP_NAME="cogni-time-shield"
+DIST_DIR="dist"
 
-echo "🔨 Building Cogni Time Shield extensions..."
+# 1. CLEANUP (Destroy previous builds)
+echo "🧹 Cleaning up old artifacts..."
+rm -rf "$DIST_DIR"
+mkdir -p "$DIST_DIR/chrome"
+mkdir -p "$DIST_DIR/firefox"
 
-# Clean previous builds
-rm -rf dist
-mkdir -p dist/chrome dist/firefox
+# 2. EXTRACT VERSION (Read from manifest.json)
+# Uses grep/sed to avoid dependency on 'jq'
+VERSION=$(grep '"version":' manifest.json | cut -d\" -f4)
+echo "🚀 Building Version: $VERSION"
 
-# Common files for both browsers
-COMMON_FILES=(
+# 3. DEFINE CORE ASSETS
+# Add any new files here. We exclude git files, DS_Store, and dev scripts automatically.
+FILES=(
   "background.js"
-  "browser-polyfill.js"
-  "complete.html"
-  "complete.js"
-  "create-icons.html"
-  "generate-icons.js"
   "popup.html"
   "popup.js"
-  "styles.css"
-  "icons"
-  "sounds"
-  "README.md"
-  "CHANGELOG.md"
-  "LICENSE"
-)
-
-# Chrome-specific files
-CHROME_SPECIFIC=(
-  "background-wrapper.js"
   "offscreen.html"
   "offscreen.js"
+  "style.css"
+  "icons"
+  "sounds"
 )
 
-echo "📦 Packaging Chrome extension..."
-# Copy common files to Chrome dist
-for file in "${COMMON_FILES[@]}"; do
-  if [ -e "$file" ]; then
-    cp -r "$file" dist/chrome/
-  fi
+# 4. BUILD FOR CHROME (Manifest V3)
+echo "🛠️  Assembling Chrome Package..."
+for file in "${FILES[@]}"; do
+  cp -r "$file" "$DIST_DIR/chrome/"
 done
+cp manifest.json "$DIST_DIR/chrome/" # Use the default MV3 manifest
 
-# Copy Chrome-specific files
-for file in "${CHROME_SPECIFIC[@]}"; do
-  if [ -e "$file" ]; then
-    cp "$file" dist/chrome/
-  fi
+# 5. BUILD FOR FIREFOX (Manifest V2)
+echo "🦊 Assembling Firefox Package..."
+for file in "${FILES[@]}"; do
+  cp -r "$file" "$DIST_DIR/firefox/"
 done
+# CRITICAL: Rename the firefox-specific manifest to standard 'manifest.json'
+cp manifest.firefox.json "$DIST_DIR/firefox/manifest.json" 
 
-# Copy Chrome manifest
-cp manifest.json dist/chrome/
+# 6. ZIP IT UP (Distribution Ready)
+echo "📦 Zipping archives..."
 
-echo "📦 Packaging Firefox extension..."
-# Copy common files to Firefox dist
-for file in "${COMMON_FILES[@]}"; do
-  if [ -e "$file" ]; then
-    cp -r "$file" dist/firefox/
-  fi
-done
+# Chrome
+cd "$DIST_DIR/chrome"
+zip -r -q "../${APP_NAME}-v${VERSION}-chrome.zip" .
+cd ../..
 
-# Copy Firefox manifest
-cp manifest.firefox.json dist/firefox/manifest.json
+# Firefox
+cd "$DIST_DIR/firefox"
+zip -r -q "../${APP_NAME}-v${VERSION}-firefox.zip" .
+cd ../..
 
-echo "🎉 Build complete!"
-echo ""
-echo "Chrome extension: dist/chrome/"
-echo "Firefox extension: dist/firefox/"
-echo ""
-echo "To create zip files for distribution:"
-echo "  cd dist/chrome && zip -r ../cogni-time-shield-chrome.zip * && cd ../.."
-echo "  cd dist/firefox && zip -r ../cogni-time-shield-firefox.zip * && cd ../.."
+echo "✅ Build Complete."
+echo "📂 Output: $DIST_DIR/"
