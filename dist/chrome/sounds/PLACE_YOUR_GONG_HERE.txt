@@ -1,0 +1,11 @@
+Place your gong.mp3 file in this directory.
+
+The file MUST be named: gong.mp3
+
+Supported format: MP3
+
+The gong sound will play automatically when:
+- A focus session completes
+- A break ends
+
+Make sure your MP3 file is not too large (recommended: under 1MB for quick loading).
