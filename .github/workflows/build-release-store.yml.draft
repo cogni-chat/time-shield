@@ -1,0 +1,44 @@
+# ⚠️ THIS FILE IS DISABLED
+# Rename this file to remove '.draft' (make it .yml) when you have set up:
+# 1. Google Cloud Project & API Access
+# 2. GitHub Secrets (CHROME_EXTENSION_ID, CHROME_CLIENT_ID, etc.)
+
+name: 🚀 Publish to Chrome Store
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  chrome-store-publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Check out the code
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Run Build Script
+      - name: 🛠️ Run Build Script
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      # 3. Prepare the file (Find the versioned zip and rename it)
+      - name: 🔄 Prepare Chrome File
+        run: |
+          echo "Looking for Chrome build..."
+          cp dist/cogni-time-shield-*-chrome.zip chrome-upload.zip
+
+      # 4. Upload to Chrome Web Store
+      - name: 🛒 Publish to Chrome Web Store
+        uses: wirecube/chrome-extension-upload-action@v1
+        with:
+          file-path: chrome-upload.zip
+          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publish: true
