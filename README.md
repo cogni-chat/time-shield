@@ -106,5 +106,8 @@ Built by **[@airawatraj](https://github.com/airawatraj)**.
 * **Concept:** The Truth Lab (Mind Lab)
 * **Inspiration:** [Marinara](https://github.com/schmich/marinara)
 * **License:** MIT (Free as in Freedom)
+* **Disclaimer:** Pomodoro® and The Pomodoro Technique® are trademarks of Francesco Cirillo. Cogni - Time Shield is not affiliated or associated with or endorsed by Pomodoro®, The Pomodoro Technique® or Francesco Cirillo.
+
+
 
 > *AI simulates logic; it is never the Witness.*
